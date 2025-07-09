@@ -242,3 +242,19 @@ return [
     ],
 
 ];
+// 会话安全配置
+'session' => [
+    'id'             => '',
+    'var_session_id' => '',
+    'prefix'         => 'maccms_',
+    'type'           => '',
+    'auto_start'     => true,
+    'httponly'       => true,
+    'secure'         => true, // HTTPS环境下启用
+    'expire'         => 7200, // 2小时过期
+    'use_trans_sid'  => false,
+    'use_cookies'    => true,
+    'domain'         => '',
+    'path'           => '/',
+    'samesite'       => 'Strict',
+],
