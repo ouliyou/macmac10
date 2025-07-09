@@ -3012,5 +3012,35 @@ if (!function_exists('copydirs')) {
         }
     }
 }
-
+// 在 /application/common.php 中添加文件类型检查函数
+function checkFileType($filename, $content) {
+    // 检查文件扩展名
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $allowedExts = ['html', 'htm', 'css', 'js', 'txt'];
+    
+    if (!in_array(strtolower($ext), $allowedExts)) {
+        return false;
+    }
+    
+    // 检查文件内容中的危险代码
+    $dangerousPatterns = [
+        '/<\?php/i',
+        '/<\?=/i',
+        '/eval\s*\(/i',
+        '/system\s*\(/i',
+        '/exec\s*\(/i',
+        '/shell_exec\s*\(/i',
+        '/passthru\s*\(/i',
+        '/file_get_contents\s*\(/i',
+        '/file_put_contents\s*\(/i'
+    ];
+    
+    foreach ($dangerousPatterns as $pattern) {
+        if (preg_match($pattern, $content)) {
+            return false;
+        }
+    }
+    
+    return true;
+}
 
