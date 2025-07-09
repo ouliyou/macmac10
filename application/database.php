@@ -54,3 +54,24 @@ return [
     // Query类
     'query'           => '\think\db\Query',
 ];
+// 数据库配置安全加固
+return [
+    'type'            => 'mysql',
+    'hostname'        => '127.0.0.1',
+    'database'        => 'maccms',
+    'username'        => 'db_user',
+    'password'        => 'strong_password_here',
+    'hostport'        => '3306',
+    'charset'         => 'utf8mb4',
+    'prefix'          => 'mac_',
+    
+    // 启用预处理语句
+    'params'          => [
+        \PDO::ATTR_EMULATE_PREPARES => false,
+        \PDO::ATTR_STRINGIFY_FETCHES => false,
+    ],
+    
+    // 启用SQL日志
+    'debug'           => true,
+    'sql_explain'     => true,
+];
