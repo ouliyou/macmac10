@@ -300,3 +300,17 @@ class Art extends Base
     }
 
 }
+public function data() {
+    $input = input('input', '');
+    
+    // 过滤XSS
+    $input = mac_filter_xss($input);
+    
+    // 传递给模板
+    $this->assign('param', [
+        'input' => $input,
+        // 其他参数...
+    ]);
+    
+    return $this->fetch();
+}
