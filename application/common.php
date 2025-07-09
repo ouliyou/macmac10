@@ -3043,4 +3043,25 @@ function checkFileType($filename, $content) {
     
     return true;
 }
+// XSS过滤函数
+function mac_filter_xss($input) {
+    if (is_array($input)) {
+        return array_map('mac_filter_xss', $input);
+    }
+    
+    // 移除危险标签
+    $input = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $input);
+    $input = preg_replace('/<iframe[^>]*>.*?<\/iframe>/is', '', $input);
+    $input = preg_replace('/javascript:/i', '', $input);
+    $input = preg_replace('/on\w+\s*=/i', '', $input);
+    
+    // HTML实体编码
+    $input = htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    
+    return $input;
+}
 
+// 输出过滤函数
+function safe_output($input) {
+    return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+}
