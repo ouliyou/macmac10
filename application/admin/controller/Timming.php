@@ -82,3 +82,27 @@ class Timming extends Base
         return $this->error(lang('param_err'));
     }
 }
+public function save() {
+    if (request()->isPost()) {
+        $data = input('post.');
+        
+        // 过滤所有输入数据
+        foreach ($data as $key => $value) {
+            $data[$key] = mac_filter_xss($value);
+        }
+        
+        // 特别处理可能包含脚本的字段
+        if (isset($data['timming_name'])) {
+            $data['timming_name'] = strip_tags($data['timming_name']);
+        }
+        
+        // 保存到数据库
+        $result = db('timming')->insert($data);
+        
+        if ($result) {
+            return json(['code' => 1, 'msg' => '保存成功']);
+        } else {
+            return json(['code' => 0, 'msg' => '保存失败']);
+        }
+    }
+}
